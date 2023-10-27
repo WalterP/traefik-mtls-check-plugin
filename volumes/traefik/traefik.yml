@@ -1,0 +1,42 @@
+api:
+  insecure: true
+  dashboard: true
+
+log:
+  level: DEBUG
+
+entryPoints:
+  web:
+    address: ":80"
+#    http:
+#      redirections:
+#        entryPoint:
+#          to: "websecure"
+#          permanent: true
+  websecure:
+    address: ":443"
+  traefik:
+    address: ":8080"
+
+global:
+  checknewversion: true
+  sendanonymoususage: false
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    swarmMode: false
+    watch: true
+  file:
+    filename: "/opt/traefik/dynamic.yml"
+    watch: true
+  providersThrottleDuration: 3s
+
+experimental:
+  localPlugins:
+    mTlsCheck:
+      modulename: github.com/WalterP/traefik-mtls-check-plugin
+
+
+

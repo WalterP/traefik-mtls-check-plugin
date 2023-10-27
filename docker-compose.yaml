@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik:latest
+    pull_policy: missing
+    command: --configFile=/opt/traefik/traefik.yml
+    ports:
+      - "81:80"
+      - "8081:8080"
+      - "8444:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./volumes/traefik/dynamic.yml:/opt/traefik/dynamic.yml"
+      - "./volumes/traefik/traefik.yml:/opt/traefik/traefik.yml"
+      - "./:/plugins-local/src/github.com/WalterP/traefik-mtls-check-plugin"
+      - "./ca.crt:/etc/traefik/ca.crt"
+      - "./server.crt:/cert/tls.crt"
+      - "./server.key:/cert/tls.key"
+    networks:
+      - web
+  whoami:
+    image: traefik/whoami
+    pull_policy: missing
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`w.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls=true"
+      - "traefik.http.routers.whoami.tls.domains[0].main=w.localhost"
+      - "traefik.http.routers.whoami.tls.options=mtls@file"
+      - "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.message=Not - Found"
+      - "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.ResponseCode=404"
+      - "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.caCertPath=/plugins-local/src/github.com/WalterP/traefik-mtls-service-redirect-plugin/ca.crt"
+      - "traefik.http.middlewares.test-errors.errors.status=400-499"
+      - "traefik.http.middlewares.test-errors.errors.service=errorServer@docker"
+      - "traefik.http.routers.whoami.middlewares=test-errors,test-redirect"
+      - "traefik.http.services.whoami.loadbalancer.server.port=8082"
+    command:
+    - --port=8082
+    - --name= This is resource is only accessible via mTLS
+    networks:
+      - web
+  errorServer:
+    image: traefik/whoami
+    pull_policy: missing
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.errorServer.rule=Host(`e.localhost`)"
+      - "traefik.http.routers.errorServer.entrypoints=web,websecure"
+      - "traefik.http.routers.errorServer.tls=true"
+      - "traefik.http.services.errorServer.loadbalancer.server.port=8082"
+    command:
+    - --port=8082
+    - --name=Error Page
+    networks:
+      - web
+networks:
+  web:

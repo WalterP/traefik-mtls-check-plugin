@@ -1,0 +1,12 @@
+displayName: mTLS check
+
+type: middleware
+
+import: github.com/WalterP/traefik-mtls-check-plugin
+
+
+summary: Example summary
+
+testData:
+  message: testMessage
+

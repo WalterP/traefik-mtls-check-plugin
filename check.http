@@ -1,0 +1,9 @@
+### Get http resource
+GET https://w.localhost:8444
+
+
+
+### Get errorServer
+GET https://e.localhost:8444
+
+
