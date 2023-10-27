@@ -1,25 +1,3 @@
-#http:
-#  routers:
-#    whoami-router:
-#      entryPoints:
-#        - web
-##        - websecure
-#      service: whoami
-##      tls: {}
-#      rule: Host(`whoami.file.localhost`)
-#      middlewares:
-#        - mtls-file
-#  services:
-#    whoami:
-#      loadBalancer:
-#        servers:
-#          - url: http://whoami:8082/
-#        passHostHeader: false
-#  middlewares:
-#    mtls-file:
-#      plugin:
-#        mTlsRedirect:
-#          message: "configMessage"
 
 tls:
   certificates:
