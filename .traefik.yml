@@ -5,8 +5,11 @@ type: middleware
 import: github.com/WalterP/traefik-mtls-check-plugin
 
 
-summary: Example summary
+summary: mTLS check middleware plugin
 
 testData:
-  message: testMessage
+  message: "Not-found"
+  responseCode: 404
+  caCert: ""
+  caCertPath: ""
 
