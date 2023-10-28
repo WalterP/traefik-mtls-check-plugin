@@ -3,7 +3,7 @@
 
 
 
-The `traefik_mtls_check_plugin` package is a plugin for Traefik that performs mutual TLS (mTLS) certificate validation. It allows Traefik to verify the client certificates presented during TLS handshake against a given CA certificate. The main difference between this plugin and TLSOptions, that the plugin allows you to specify the response code and message that should be returned to the client in case of a failed validation.
+The `traefik_mtls_check_plugin` package is a middleware plugin for Traefik that performs mutual TLS (mTLS) certificate validation. It allows Traefik to verify the client certificates presented during TLS handshake against a given CA certificate. The main difference between this middleware plugin and TLSOptions, that the plugin allows you to specify the response code and message that should be returned to the client in case of a failed validation.
 On other hand, TLSOptions with clientAuthType: RequireAndVerifyClientCert will return ssl error to the client.
 The combination of:
 - TLSOptions with clientAuthType: RequestClientCert
@@ -17,8 +17,7 @@ will allow you to return custom errorPage to the client in case of failed valida
 To use the `traefik_mtls_check_plugin`, you need to have Traefik installed and configured. Follow the instructions below to install the plugin:
 
 1. Install Traefik: [Traefik Installation Guide](https://doc.traefik.io/traefik/getting-started/install-traefik/)
-2. Build the plugin binary: `go build -o traefik_mtls_check_plugin.so -buildmode=plugin`
-3. [Configure Traefik to use the plugin](https://plugins.traefik.io/install): Add the following lines to your Traefik configuration file (`traefik.toml` or `traefik.yaml`):
+2. [Configure Traefik to use the plugin](https://plugins.traefik.io/install): Add the following lines to your Traefik configuration file (`traefik.toml` or `traefik.yaml`):
 
 
 ```toml
@@ -44,7 +43,7 @@ experimental:
 
 ## Configuration
 
-The `traefik_mtls_check_plugin` supports the following configuration options in the Traefik configuration file:
+The `traefik_mtls_check_plugin` supports the following configuration options in the Traefik middleware configuration file:
 
 
 - `responseCode`: The HTTP response code to return when the certificate validation fails.
