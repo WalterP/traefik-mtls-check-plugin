@@ -1,11 +1,8 @@
 displayName: mTLS check
-
 type: middleware
-
 import: github.com/WalterP/traefik-mtls-check-plugin
 
-
-summary: mTLS check middleware plugin
+summary: 'mTLS check middleware plugin'
 
 testData:
   message: "Not-found"
