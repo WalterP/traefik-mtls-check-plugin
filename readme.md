@@ -21,22 +21,22 @@ To use the `traefik_mtls_check_plugin`, you need to have Traefik installed and c
 
 
 ```toml
-[experimental.plugins.mTlsCheck]
-modulename = "github.com/WalterP/traefik-mtls-check-plugin"
-version = "v0.1.0"
+[experimental.plugins.traefik-mtls-check-plugin]
+  moduleName = "github.com/WalterP/traefik-mtls-check-plugin"
+  version = "v0.1.0"
 ```
 
 ```yaml
 experimental:
   plugins:
-    mTlsCheck:
-      modulename: "github.com/WalterP/traefik-mtls-check-plugin"
+    traefik-mtls-check-plugin:
+      moduleName: "github.com/WalterP/traefik-mtls-check-plugin"
       version: "v0.1.0"
 ```
 
 ```cli
-- "--experimental.plugins.mTlsCheck.modulename=github.com/WalterP/traefik-mtls-check-plugin"
-- "--experimental.plugins.mTlsCheck.version=v0.1.0"
+--experimental.plugins.traefik-mtls-check-plugin.modulename=github.com/WalterP/traefik-mtls-check-plugin
+--experimental.plugins.traefik-mtls-check-plugin.version=v0.1.0
 ```
 
 4. Restart Traefik: `traefik restart`
@@ -59,9 +59,9 @@ Once the `traefik_mtls_check_plugin` is installed and configured, you can use it
 Docker:
 
 ```labels
-- "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.message=Not - Found"
-- "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.ResponseCode=404"
-- "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.caCertPath=/certs/mtls/ca.crt"
+- "traefik.http.middlewares.test-redirect.plugin.traefik-mtls-check-plugin.message=Not - Found"
+- "traefik.http.middlewares.test-redirect.plugin.traefik-mtls-check-plugin.ResponseCode=404"
+- "traefik.http.middlewares.test-redirect.plugin.traefik-mtls-check-plugin.caCertPath=/certs/mtls/ca.crt"
 - "traefik.http.routers.whoami.middlewares=test-redirect"
 
 ```
@@ -75,7 +75,7 @@ metadata:
   name: mtls-check
 spec:
   plugin:
-    mTlsCheck:
+    traefik-mtls-check-plugin:
       message: "Not-found"
       responseCode: 404
       caCert: "urn:k8s:secret:client-mtls:ca.crt"
@@ -85,9 +85,9 @@ Example with combination of custom errorPage:
 
 ```dockerlabels
 - "traefik.http.routers.whoami.tls.options=mtls@file"
-- "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.message=Not - Found"
-- "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.ResponseCode=404"
-- "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.caCertPath=/certs/mtls/ca.crt"
+- "traefik.http.middlewares.test-redirect.plugin.traefik-mtls-check-plugin.message=Not - Found"
+- "traefik.http.middlewares.test-redirect.plugin.traefik-mtls-check-plugin.ResponseCode=404"
+- "traefik.http.middlewares.test-redirect.plugin.traefik-mtls-check-plugin.caCertPath=/certs/mtls/ca.crt"
 - "traefik.http.middlewares.test-errors.errors.status=400-499"
 - "traefik.http.middlewares.test-errors.errors.service=errorServer@docker"
 - "traefik.http.routers.whoami.middlewares=test-errors,test-redirect"

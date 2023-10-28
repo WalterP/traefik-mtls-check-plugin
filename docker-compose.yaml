@@ -14,7 +14,7 @@ services:
       - "./volumes/traefik/dynamic.yml:/opt/traefik/dynamic.yml"
       - "./volumes/traefik/traefik.yml:/opt/traefik/traefik.yml"
       - "./:/plugins-local/src/github.com/WalterP/traefik-mtls-check-plugin"
-      - "./ca.crt:/etc/traefik/ca.crt"
+      - "./ca.crt:/etc/cert/ca.crt"
       - "./server.crt:/cert/tls.crt"
       - "./server.key:/cert/tls.key"
     networks:
@@ -31,7 +31,7 @@ services:
       - "traefik.http.routers.whoami.tls.options=mtls@file"
       - "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.message=Not - Found"
       - "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.ResponseCode=404"
-      - "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.caCertPath=/plugins-local/src/github.com/WalterP/traefik-mtls-service-redirect-plugin/ca.crt"
+      - "traefik.http.middlewares.test-redirect.plugin.mTlsCheck.caCertPath=/cert/ca.crt"
       - "traefik.http.middlewares.test-errors.errors.status=400-499"
       - "traefik.http.middlewares.test-errors.errors.service=errorServer@docker"
       - "traefik.http.routers.whoami.middlewares=test-errors,test-redirect"
